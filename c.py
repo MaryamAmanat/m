@@ -105,60 +105,6 @@ def about_us():
     st.write("We provide personalized career suggestions to assist you in making informed decisions about your future.")
     st.write("Feel free to explore the app and discover exciting career paths!")
 
-def user_profile():
-    st.title("User Profile")
-    st.write("Manage your profile information here.")
-
-    # Get the current logged-in user (assuming you have stored the username in session_state)
-    username = session_state.username
-
-    # Connect to the SQLite database
-    conn = sqlite3.connect('user.db')
-    c = conn.cursor()
-
-    # Retrieve the user profile information from the database
-    c.execute("SELECT * FROM profiles WHERE username=?", (username,))
-    result = c.fetchone()
-
-    if result:
-        # If the user profile exists, display the profile information
-        st.subheader("Profile Information")
-        st.write("Username:", result[0])
-        st.write("Full Name:", result[1])
-        st.write("Email:", result[2])
-        st.write("Education:", result[3])
-        st.write("Skills:", result[4])
-        # Add more profile fields as needed
-
-        # Update Profile button
-        if st.button("Update Profile"):
-            # Add functionality to update the user profile information here
-            st.write("Updating profile...")
-
-    else:
-        # If the user profile doesn't exist, display a message to create the profile
-        st.write("Please create your profile.")
-
-        # Profile form fields
-        full_name = st.text_input("Full Name")
-        email = st.text_input("Email")
-        education = st.text_area("Education")
-        skills = st.text_area("Skills")
-        # Add more profile fields as needed
-
-        # Create Profile button
-        if st.button("Create Profile"):
-            if full_name and email and education and skills:
-                # Insert the user profile information into the database
-                c.execute("INSERT INTO profiles VALUES (?, ?, ?, ?)", (username, full_name, email, education, skills))
-                conn.commit()
-                st.success("Profile created successfully!")
-            else:
-                st.warning("Please fill in all the profile fields.")
-
-    # Close the database connection
-    conn.close()
-
     
     
     
@@ -169,7 +115,7 @@ def main():
     st.write("Welcome to the app!")
 
     # Sidebar navigation
-    page = st.sidebar.radio("Navigation", ("Login", "Signup", "Career Counseling", "About Us","User Profile"))
+    page = st.sidebar.radio("Navigation", ("Login", "Signup", "Career Counseling", "About Us"))
 
     if page == "Login":
         login()
@@ -179,8 +125,6 @@ def main():
         career_counseling_app()
     elif page == "About Us":
         about_us()
-    elif page == "User Profile":
-        user_profile()
 # Run the app
 if __name__ == '__main__':
     main()
