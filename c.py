@@ -98,13 +98,20 @@ def career_counseling_app():
     else:
         st.write("No suggested careers based on your inputs.")
 
+def about_us():
+    st.title("About Us")
+    st.write("Welcome to the Career Counseling App!")
+    st.write("This app is designed to help you explore various career options based on your hobbies, interests, and favorite subjects.")
+    st.write("We provide personalized career suggestions to assist you in making informed decisions about your future.")
+    st.write("Feel free to explore the app and discover exciting career paths!")
+
 # Main app
 def main():
     st.title("User Authentication and Career Counseling App")
     st.write("Welcome to the app!")
 
     # Sidebar navigation
-    page = st.sidebar.radio("Navigation", ("Login", "Signup", "Career Counseling"))
+    page = st.sidebar.radio("Navigation", ("Login", "Signup", "Career Counseling", "About Us"))
 
     if page == "Login":
         login()
@@ -113,10 +120,12 @@ def main():
     elif page == "Career Counseling":
         if login():  # Check if login is successful
             career_counseling_app()
+    elif page == "About Us":
+        about_us()
 
 # Run the app
 if __name__ == '__main__':
     main()
-    career_counseling_app()  # Call career_counseling_app outside of main()
+
 
    
