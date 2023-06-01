@@ -137,11 +137,12 @@ def main():
 
     if page == "Login":
         login()
-        career_counseling_ap()
+        if page == "Login":
+          career_counseling_ap()
     elif page == "Signup":
         signup()
 
 # Run the app
 if __name__ == '__main__':
     main()
-    career_counseling_app()
+   
