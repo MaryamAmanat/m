@@ -134,12 +134,11 @@ def main():
 
     # Sidebar navigation
     page = st.sidebar.radio("Navigation", ("Login", "Signup","career_counseling_ap"))
-
-if page == "Login":
-    if login():  # Check if login is successful
+    if page == "Login":
+      if login():  # Check if login is successful
         career_counseling_app()
-elif page == "Signup":
-    signup()
+    elif page == "Signup":
+      signup()
 
 
 
