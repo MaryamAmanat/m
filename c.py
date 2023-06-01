@@ -53,79 +53,50 @@ def login():
             career_counseling_app()
         else:
             st.error("Invalid username or password.")
+            
+career_options = {
+    'Hobby': {
+        'Sports': ['Athlete', 'Sports Coach', 'Sports Journalist'],
+        'Music': ['Musician', 'Music Teacher', 'Sound Engineer'],
+        'Cooking': ['Chef', 'Food Critic', 'Culinary Instructor']
+    },
+    'Interest': {
+        'Technology': ['Software Developer', 'Data Scientist', 'IT Consultant'],
+        'Art': ['Artist', 'Graphic Designer', 'Art Director'],
+        'Science': ['Scientist', 'Researcher', 'Pharmacist']
+    },
+    'Subject': {
+        'Mathematics': ['Mathematician', 'Financial Analyst', 'Statistician'],
+        'Language': ['Translator', 'Copywriter', 'Interpreter'],
+        'History': ['Historian', 'Archaeologist', 'Curator']
+    }
+}
 
 # Career Counseling App
 def career_counseling_app():
     st.title("Career Counseling App")
     st.write("Welcome to the Career Counseling App!")
-    
-    # Add your app code here
-    # ...
-    # ...
-    
-   
-    
-    # Hobbies section
-    st.header("Hobbies")
-    st.write("Select your hobbies:")
-    hobbies = st.multiselect("Choose hobbies", [
-        "Painting",
-        "Playing an instrument",
-        "Sports",
-        "Cooking",
-        "Writing",
-        "Photography"
-    ])
-    
-    # Interests section
-    st.header("Interests")
-    st.write("Select your interests:")
-    interests = st.multiselect("Choose interests", [
-        "Technology",
-        "Art and Design",
-        "Business and Finance",
-        "Healthcare",
-        "Education",
-        "Environment"
-    ])
-    
-    # Favorite subjects section
-    st.header("Favorite Subjects")
-    st.write("Select your favorite subjects:")
-    favorite_subjects = st.multiselect("Choose favorite subjects", [
-        "Mathematics",
-        "Science",
-        "History",
-        "Literature",
-        "Computer Science",
-        "Art"
-    ])
-    
-    # Career suggestion section
-    st.header("Career Suggestions")
-    st.write("Based on your selections, here are some career suggestions:")
-    
-    if "Painting" in hobbies and "Art and Design" in interests:
-        st.subheader("Fine Artist")
-        st.write("Description: As a fine artist, you can express your creativity through various artistic mediums such as painting, sculpture, or mixed media.")
-        st.write("Specialties: Abstract art, landscape painting, portrait drawing")
-        st.write("---")
-        
-    if "Playing an instrument" in hobbies and "Art and Design" in interests:
-        st.subheader("Musician")
-        st.write("Description: As a musician, you can pursue a career in playing an instrument, composing music, or performing in bands or orchestras.")
-        st.write("Specialties: Piano, guitar, violin")
-        st.write("---")
-        
-    if "Sports" in hobbies and "Healthcare" in interests:
-        st.subheader("Sports Physiotherapist")
-        st.write("Description: As a sports physiotherapist, you can work with athletes to prevent and treat sports-related injuries, helping them to recover and enhance their performance.")
-        st.write("Specialties: Sports rehabilitation, injury prevention")
-        st.write("---")
-        
-    # Add more career suggestions based on the user's choices
-    
-    
+
+    # Get user inputs
+    hobbies = st.multiselect("Select your hobbies", list(career_options['Hobby'].keys()))
+    interests = st.multiselect("Select your interests", list(career_options['Interest'].keys()))
+    subjects = st.multiselect("Select your favorite subjects", list(career_options['Subject'].keys()))
+
+    # Show suggested careers based on user inputs
+    st.subheader("Suggested Careers")
+    suggested_careers = set()
+    for hobby in hobbies:
+        suggested_careers.update(career_options['Hobby'].get(hobby, []))
+    for interest in interests:
+        suggested_careers.update(career_options['Interest'].get(interest, []))
+    for subject in subjects:
+        suggested_careers.update(career_options['Subject'].get(subject, []))
+
+    if len(suggested_careers) > 0:
+        for career in suggested_careers:
+            st.write("- " + career)
+    else:
+        st.write("No suggested careers based on your inputs.")
 
 # Main app
 def main():
@@ -133,7 +104,7 @@ def main():
     st.write("Welcome to the app!")
 
     # Sidebar navigation
-    page = st.sidebar.radio("Navigation", ("Login", "Signup","career_counseling_ap"))
+    page = st.sidebar.radio("Navigation", ("Login", "Signup","career_counseling_app"))
     if page == "Login":
       if login():  # Check if login is successful
         career_counseling_app()
