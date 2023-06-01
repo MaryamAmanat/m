@@ -107,7 +107,7 @@ def about_us():
 
 # Main app
 def main():
-    st.title("User Authentication and Career Counseling App")
+    st.title("Career Counseling App")
     st.write("Welcome to the app!")
 
     # Sidebar navigation
