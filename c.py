@@ -107,7 +107,7 @@ def main():
     page = st.sidebar.radio("Navigation", ("Login", "Signup", "Career Counseling"))
 
  if page == "Login":
-        login()
+      login()
     elif page == "Signup":
         signup()
     elif page == "Career Counseling":
