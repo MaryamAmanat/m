@@ -125,7 +125,9 @@ def main():
 
 # Run the app
 if __name__ == '__main__':
-    main()
+    main(career_counseling_app())  
+         # Call career_counseling_app outside of main()
+    
 
 
    
