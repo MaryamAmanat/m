@@ -114,8 +114,9 @@ def main():
         if login():  # Check if login is successful
             career_counseling_app()
 
-
 # Run the app
 if __name__ == '__main__':
     main()
+    career_counseling_app()  # Call career_counseling_app outside of main()
+
    
