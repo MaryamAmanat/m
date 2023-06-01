@@ -138,7 +138,7 @@ def main():
     if page == "Login":
         login()
         if page == "Login":
-          career_counseling_ap()
+          career_counseling_app()
     elif page == "Signup":
         signup()
 
