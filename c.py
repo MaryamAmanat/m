@@ -135,12 +135,12 @@ def main():
     # Sidebar navigation
     page = st.sidebar.radio("Navigation", ("Login", "Signup","career_counseling_ap"))
 
-    if page == "Login":
-        login()
-        if page == "Login":
-          career_counseling_app()
-    elif page == "Signup":
-        signup()
+  if page == "Login":
+    if login():  # Check if login is successful
+        career_counseling_app()
+elif page == "Signup":
+    signup()
+
 
 # Run the app
 if __name__ == '__main__':
