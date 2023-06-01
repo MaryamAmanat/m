@@ -108,8 +108,6 @@ def main():
 
     if page == "Login":
         login()
-         if login():  # Check if login is successful
-           career_counseling_app()
     elif page == "Signup":
         signup()
     elif page == "Career Counseling":
@@ -119,6 +117,6 @@ def main():
 # Run the app
 if __name__ == '__main__':
     main()
-  #  career_counseling_app()  # Call career_counseling_app outside of main()
+    career_counseling_app()  # Call career_counseling_app outside of main()
 
    
