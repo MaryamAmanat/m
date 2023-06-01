@@ -133,10 +133,11 @@ def main():
     st.write("Welcome to the app!")
 
     # Sidebar navigation
-    page = st.sidebar.radio("Navigation", ("Login", "Signup"))
+    page = st.sidebar.radio("Navigation", ("Login", "Signup","career_counseling_ap"))
 
     if page == "Login":
         login()
+        career_counseling_ap()
     elif page == "Signup":
         signup()
 
