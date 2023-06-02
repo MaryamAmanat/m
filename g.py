@@ -24,21 +24,25 @@ def data_entry():
             st.success(f"New file created: {filename}")
 
     # Take income details
-    st.subheader("Income Details")
-    income_type = st.radio("Income Type", ["Salary", "Blog Income", "Other Income"])
-    income_amount = st.number_input("Income Amount (USD)", min_value=0.0, step=0.01)
+    while st.button("Add Income"):
+        income_type = st.radio("Income Type", ["Salary", "Blog Income", "Other Income"])
+        income_amount = st.number_input("Income Amount (USD)", min_value=0.0, step=0.01)
+
+        # Append income data to the file
+        with open(filename, "a") as f:
+            f.write(f"{date},{income_type},{income_amount},,,\n")
+        st.success("Income entry added successfully!")
 
     # Take expense details
-    st.subheader("Expense Details")
-    expense_type = st.radio("Expense Type", ["Rent", "Car Expense", "Grocery Expense", "Other Expense"])
-    expense_amount = st.number_input("Expense Amount (USD)", min_value=0.0, step=0.01)
+    while st.button("Add Expense"):
+        expense_type = st.radio("Expense Type", ["Rent", "Car Expense", "Grocery Expense", "Other Expense"])
+        expense_amount = st.number_input("Expense Amount (USD)", min_value=0.0, step=0.01)
+        comments = st.text_area("Comments")
 
-    comments = st.text_area("Comments")
-
-    # Append data to the file
-    with open(filename, "a") as f:
-        f.write(f"{date},{income_type},{income_amount},{expense_type},{expense_amount},{comments}\n")
-    st.success("Data entry added successfully!")
+        # Append expense data to the file
+        with open(filename, "a") as f:
+            f.write(f"{date},,{income_type},{expense_type},{expense_amount},{comments}\n")
+        st.success("Expense entry added successfully!")
 
 def display_report():
     st.subheader("Data Report")
@@ -59,10 +63,6 @@ def display_report():
             grouped_df = combined_df.groupby(combined_df['Date'].dt.strftime('%B'))[['Income Amount', 'Expense Amount']].sum().reset_index()
             grouped_df = grouped_df.rename(columns={'Date': 'Month'})
             st.dataframe(grouped_df)
-
-            # Display income and expense charts
-            st.subheader("Income and Expense Charts")
-            st.bar_chart(grouped_df.set_index('Month'))
 
             # Calculate net income
             net_income = grouped_df['Income Amount'].sum() - grouped_df['Expense Amount'].sum()
@@ -85,4 +85,9 @@ def main():
     option = st.sidebar.selectbox("Select Option", ["Data Entry", "Display Report"])
 
     if option == "Data Entry":
-       
+        data_entry()
+    elif option == "Display Report":
+        display_report()
+
+if __name__ == "__main__":
+    main()
