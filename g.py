@@ -66,7 +66,11 @@ def display_report():
 
     # Clear the report
     if st.button("Clear Report"):
+        # Delete all the data files
+        for file in csv_files:
+            os.remove(os.path.join("data", file))
         st.warning("Report cleared successfully!")
+
 
 def main():
     st.title("Expense and Income Tracker")
