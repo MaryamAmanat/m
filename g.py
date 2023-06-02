@@ -24,7 +24,13 @@ def data_entry():
     # Take income details
     st.subheader("Income Details")
     salary = st.number_input("Salary (USD)", min_value=0.0, step=0.01)
-    blog_income = st.number_input("Blog Income (USD)", min_value=0.0, step=0.01)
+
+    # Add option to add blog income
+    add_blog_income = st.checkbox("Add Blog Income")
+    blog_income = 0.0
+    if add_blog_income:
+        blog_income = st.number_input("Blog Income (USD)", min_value=0.0, step=0.01)
+
     other_income = st.number_input("Other Income (USD)", min_value=0.0, step=0.01)
 
     # Take expense details
@@ -39,13 +45,14 @@ def data_entry():
     # Append data to the file
     with open(filename, "a") as f:
         f.write(f"{date},Salary,{salary},Rent,{rent_expense},{comments}\n")
-        f.write(f"{date},Blog Income,{blog_income},Grocery,{grocery_expense},{comments}\n")
+        if add_blog_income:
+            f.write(f"{date},Blog Income,{blog_income},Grocery,{grocery_expense},{comments}\n")
         f.write(f"{date},Other Income,{other_income},Car,{car_expense},{comments}\n")
         f.write(f"{date},,,-Other-,{other_expense},{comments}\n")
     st.success("Data entry added successfully!")
 
 def display_report():
-    st.subheader("Data Report")
+    st.subheader("Display Report")
 
     # Read all the CSV files in the 'data' directory
     csv_files = [file for file in os.listdir("data") if file.endswith(".csv")]
