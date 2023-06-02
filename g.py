@@ -18,13 +18,19 @@ def data_entry():
     # Check if file already exists, create new file if not
     if not os.path.isfile(filename):
         with open(filename, "w") as f:
-            f.write("Date,Salary,Blog Income,Other Income,Rent Expense,Grocery Expense,Car Expense,Other Expense,Comments\n")
+            f.write("Date,Income Type,Income Amount,Expense Type,Expense Amount,Comments\n")
             st.success(f"New file created: {filename}")
 
     # Take income details
     st.subheader("Income Details")
     salary = st.number_input("Salary (USD)", min_value=0.0, step=0.01)
-    blog_income = st.number_input("Blog Income (USD)", min_value=0.0, step=0.01)
+
+    # Add option to add blog income
+    add_blog_income = st.checkbox("Add Blog Income")
+    blog_income = 0.0
+    if add_blog_income:
+        blog_income = st.number_input("Blog Income (USD)", min_value=0.0, step=0.01)
+
     other_income = st.number_input("Other Income (USD)", min_value=0.0, step=0.01)
 
     # Take expense details
@@ -38,7 +44,11 @@ def data_entry():
 
     # Append data to the file
     with open(filename, "a") as f:
-        f.write(f"{date},{salary},{blog_income},{other_income},{rent_expense},{grocery_expense},{car_expense},{other_expense},{comments}\n")
+        f.write(f"{date},Salary,{salary},Rent,{rent_expense},{comments}\n")
+        if add_blog_income:
+            f.write(f"{date},Blog Income,{blog_income},Grocery,{grocery_expense},{comments}\n")
+        f.write(f"{date},Other Income,{other_income},Car,{car_expense},{comments}\n")
+        f.write(f"{date},,,-Other-,{other_expense},{comments}\n")
     st.success("Data entry added successfully!")
 
 def display_report():
@@ -58,7 +68,7 @@ def display_report():
             df['Date'] = pd.to_datetime(df['Date'])
             filtered_df = df[df['Date'].dt.date == selected_date]
             if not filtered_df.empty:
-                filtered_data.append(filtered_df.head(1))  # Select only the first row for each date
+                filtered_data.append(filtered_df)
 
         if filtered_data:
             # Combine all the filtered DataFrames into a single DataFrame
