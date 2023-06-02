@@ -53,16 +53,16 @@ def display_report():
     if csv_files:
         # Select date for filtering
         selected_date = st.date_input("Select Date")
-        
+
         # Filter records for the selected date
         filtered_data = []
         for file in csv_files:
             df = pd.read_csv(os.path.join("data", file))
             df['Date'] = pd.to_datetime(df['Date'])
-            filtered_df = df[df['Date'] == selected_date]
+            filtered_df = df[df['Date'].dt.date == selected_date]
             if not filtered_df.empty:
                 filtered_data.append(filtered_df)
-        
+
         if filtered_data:
             # Combine all the filtered DataFrames into a single DataFrame
             combined_df = pd.concat(filtered_data, ignore_index=True)
@@ -71,7 +71,6 @@ def display_report():
             st.warning("No data available for the selected date.")
     else:
         st.warning("No data files found.")
-
 
 
 def main():
