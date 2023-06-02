@@ -9,13 +9,11 @@ if not os.path.exists("data"):
 def data_entry():
     st.subheader("Data Entry")
 
-    # Select month and date
-    month = st.selectbox("Select Month", ["January", "February", "March", "April", "May", "June", "July",
-                                          "August", "September", "October", "November", "December"])
+    # Select date for data entry
     date = st.date_input("Select Date")
 
-    # Create filename based on month and date
-    filename = f"data/{month}_{date.day}.csv"
+    # Create filename based on the selected date
+    filename = f"data/{date}.csv"
 
     # Check if file already exists, create new file if not
     if not os.path.isfile(filename):
@@ -25,24 +23,26 @@ def data_entry():
 
     # Take income details
     st.subheader("Income Details")
-    income_type = st.radio("Income Type", ["Salary", "Blog Income", "Other Income"])
-    income_amount = st.number_input("Income Amount (USD)", min_value=0.0, step=0.01)
+    salary = st.number_input("Salary (USD)", min_value=0.0, step=0.01)
+    blog_income = st.number_input("Blog Income (USD)", min_value=0.0, step=0.01)
+    other_income = st.number_input("Other Income (USD)", min_value=0.0, step=0.01)
 
     # Take expense details
     st.subheader("Expense Details")
-    expense_type = st.radio("Expense Type", ["Rent", "Car Expense", "Grocery Expense", "Other Expense"])
-    expense_amount = st.number_input("Expense Amount (USD)", min_value=0.0, step=0.01)
+    rent_expense = st.number_input("Rent Expense (USD)", min_value=0.0, step=0.01)
+    grocery_expense = st.number_input("Grocery Expense (USD)", min_value=0.0, step=0.01)
+    car_expense = st.number_input("Car Expense (USD)", min_value=0.0, step=0.01)
+    other_expense = st.number_input("Other Expense (USD)", min_value=0.0, step=0.01)
 
     comments = st.text_area("Comments")
 
     # Append data to the file
     with open(filename, "a") as f:
-        f.write(f"{date},{income_type},{income_amount},{expense_type},{expense_amount},{comments}\n")
+        f.write(f"{date},Salary,{salary},Rent,{rent_expense},{comments}\n")
+        f.write(f"{date},Blog Income,{blog_income},Grocery,{grocery_expense},{comments}\n")
+        f.write(f"{date},Other Income,{other_income},Car,{car_expense},{comments}\n")
+        f.write(f"{date},,,-Other-,{other_expense},{comments}\n")
     st.success("Data entry added successfully!")
-
-    # Save the data for the current date
-    if st.button("Save"):
-        st.success("Data saved successfully!")
 
 def display_report():
     st.subheader("Data Report")
@@ -72,6 +72,12 @@ def display_report():
     else:
         st.warning("No data files found.")
 
+    # Clear the report
+    if st.button("Clear Report"):
+        # Delete all the data files
+        for file in csv_files:
+            os.remove(os.path.join("data", file))
+        st.warning("Report cleared successfully!")
 
 def main():
     st.title("Expense and Income Tracker")
