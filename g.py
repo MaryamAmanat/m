@@ -25,12 +25,12 @@ def data_entry():
 
     # Take income details
     st.subheader("Income Details")
-    income_type = st.selectbox("Income Type", ["Salary", "Blog Income", "Other Income"])
+    income_type = st.radio("Income Type", ["Salary", "Blog Income", "Other Income"])
     income_amount = st.number_input("Income Amount (USD)", min_value=0.0, step=0.01)
 
     # Take expense details
     st.subheader("Expense Details")
-    expense_type = st.selectbox("Expense Type", ["Rent", "Car Expense", "Grocery Expense", "Other Expense"])
+    expense_type = st.radio("Expense Type", ["Rent", "Car Expense", "Grocery Expense", "Other Expense"])
     expense_amount = st.number_input("Expense Amount (USD)", min_value=0.0, step=0.01)
 
     comments = st.text_area("Comments")
