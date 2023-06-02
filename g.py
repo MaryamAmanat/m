@@ -68,7 +68,7 @@ def display_report():
             df['Date'] = pd.to_datetime(df['Date'])
             filtered_df = df[df['Date'].dt.date == selected_date]
             if not filtered_df.empty:
-                filtered_data.append(filtered_df)
+                filtered_data.append(filtered_df.head(1))  # Select only the first row for each date
 
         if filtered_data:
             # Combine all the filtered DataFrames into a single DataFrame
