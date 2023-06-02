@@ -54,7 +54,25 @@ def display_report():
             dfs.append(df)
         if len(dfs) > 0:
             combined_df = pd.concat(dfs, ignore_index=True)
+
+            # Group the data by month and calculate totals
+            grouped_df = combined_df.groupby(combined_df['Date'].dt.strftime('%B'))[['Income Amount', 'Expense Amount']].sum().reset_index()
+            grouped_df = grouped_df.rename(columns={'Date': 'Month'})
+            st.dataframe(grouped_df)
+
+            # Display income and expense charts
+            st.subheader("Income and Expense Charts")
+            st.bar_chart(grouped_df.set_index('Month'))
+
+            # Calculate net income
+            net_income = grouped_df['Income Amount'].sum() - grouped_df['Expense Amount'].sum()
+            st.subheader("Net Income")
+            st.write(f"${net_income:.2f}")
+
+            # Display detailed report
+            st.subheader("Detailed Report")
             st.dataframe(combined_df)
+
         else:
             st.warning("No data available.")
     else:
@@ -67,9 +85,4 @@ def main():
     option = st.sidebar.selectbox("Select Option", ["Data Entry", "Display Report"])
 
     if option == "Data Entry":
-        data_entry()
-    elif option == "Display Report":
-        display_report()
-
-if __name__ == '__main__':
-    main()
+       
